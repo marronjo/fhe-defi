@@ -9,8 +9,8 @@
 - [Abstract](#-abstract)  
 - [High-Level Overview](#-high-level-overview-how-swaps-work--uniswap-v4-features)  
   - [Basic Swap Flow](#-basic-swap-flow)  
-  - [Uniswap v4 Hooks](#enter-uniswap-v4-hooks--custom-logic)  
-  - [v4 Hook Flow Example](#v4-hook-flow-example)  
+  - [Uniswap v4 Hooks](#-enter-uniswap-v4-hooks--custom-logic)  
+  - [v4 Hook Flow Example](#-v4-hook-flow-example)  
 
 - Order Types & Research Areas
   - [Encrypted Market Orders](https://github.com/marronjo/fhe-defi/tree/main/1.MarketOrder)
