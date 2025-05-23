@@ -12,9 +12,7 @@ This project explores how **Fully Homomorphic Encryption (FHE)** can be applied 
 By integrating FHE with **Uniswap v4’s hook architecture**, we introduce a system 
 where users can submit **encrypted market orders** without revealing intent or strategy.
 
-Swaps are monitored via hooks, triggering private logic that interacts with a secure 
-coprocessor (e.g. [Fhenix](https://www.fhenix.io/)) to decrypt and execute orders 
-only when conditions are met.
+Hooks trigger private computations within a secure coprocessor (e.g., Fhenix), enabling order execution only when encrypted conditions are met.
 
 This approach preserves **composability** and **permissionless access**, while offering 
 **meaningful privacy for traders** in public AMM environments.
