@@ -4,6 +4,17 @@
 
 > This repository is dedicated to research and experimentation at the frontier of crypto privacy: applying FHE to DeFi protocols such as Uniswap v4 through customizable hooks.
 
+## Table of Contents
+
+- [Abstract](#-abstract)  
+- [High-Level Overview](#-high-level-overview-how-swaps-work--uniswap-v4-features)  
+  - [Basic Swap Flow](#-basic-swap-flow)  
+  - [Uniswap v4 Hooks](#enter-uniswap-v4-hooks--custom-logic)  
+  - [v4 Hook Flow Example](#v4-hook-flow-example)  
+
+- Order Types & Research Areas
+  - [Encrypted Market Orders](https://github.com/marronjo/fhe-defi/tree/main/1.MarketOrder)
+
 ## 🧪 Abstract
 
 This project explores how **Fully Homomorphic Encryption (FHE)** can be applied to 
