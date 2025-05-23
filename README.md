@@ -4,62 +4,51 @@
 
 > This repository is dedicated to research and experimentation at the frontier of crypto privacy: applying FHE to DeFi protocols such as Uniswap v4 through customizable hooks.
 
-## 🧪 Exploration
+## 🧪 Abstract
 
-- ⚙️ **Private Market Orders**  
-  Leveraging FHE to enable encrypted limit and market orders within public AMM protocols (e.g., Uniswap v4).
+This project explores how **Fully Homomorphic Encryption (FHE)** can be applied to 
+**Decentralized Finance (DeFi)** to enable truly private on-chain interactions.
 
-- 🧠 **Smart Contract Hooks with FHE**  
-  Using Uniswap's hook architecture to trigger private logic without leaking sensitive intent or strategy.
+By integrating FHE with **Uniswap v4’s hook architecture**, we introduce a system 
+where users can submit **encrypted market orders** without revealing intent or strategy.
 
-- 🛰️ **FHE Coprocessor Integration**  
-  Offloading secure computations to the [Fhenix coprocessor](https://www.fhenix.io/) that can operate on encrypted data.
+Swaps are monitored via hooks, triggering private logic that interacts with a secure 
+coprocessor (e.g. [Fhenix](https://www.fhenix.io/)) to decrypt and execute orders 
+only when conditions are met.
 
-- 📈 **Practical Privacy for Traders**  
-  Building systems that respect user privacy *without* breaking composability or permissionless access.
+This approach preserves **composability** and **permissionless access**, while offering 
+**meaningful privacy for traders** in public AMM environments.
 
-## Encrypted Market Orders
+## 🦄 High-Level Overview: How Swaps Work & Uniswap v4 Features
 
-<img src="./assets/FHEMarketOrderHook.png" />
+At its core, a **swap** is a simple trade between two tokens. In decentralized exchanges like Uniswap, this happens using **automated market makers (AMMs)**, which replace traditional order books with mathematical formulas to determine prices based on token reserves.
 
-### 🔄 Encrypted Market Order Flow
+### 🔄 Basic Swap Flow
 
-This system enables private (encrypted) market orders to be automatically processed during regular Uniswap activity, using a smart contract hook and an FHE (Fully Homomorphic Encryption) coprocessor.
+1. A user sends token A to a liquidity pool.
+2. The pool returns token B, based on the current exchange rate.
+3. The swap affects the pool’s token ratios, updating prices for the next trade.
 
-### 1. 🔐 Users Place Private Orders
-Users send **encrypted** market orders to a special contract called the **hook contract**. These orders are hidden and stored securely until it's the right time to act on them.
+### 🧱 Enter Uniswap v4: Hooks & Custom Logic
 
-### 2. 💱 Other Users Make Regular Swaps
-Meanwhile, regular users continue to swap tokens in the **Uniswap pool** just like normal.
+Uniswap v4 introduces **hooks**, a powerful new upgrade that allows developers to run custom smart contract logic at specific points in the swap lifecycle:
 
-### 3. ⚙️ Hook Runs on Every Swap
-Every time a swap is initiated, the system automatically calls two special functions in the hook contract:
-- `beforeSwap()` — runs **before** the swap happens
-- `afterSwap()` — runs **after** the swap is done
+- `{before,after}Initialize`
+- `{before,after}AddLiquidity`
+- `{before,after}RemoveLiquidity`
+- `{before,after}Swap`
+- `{before,after}Donate`
 
-### 4. Check for Executable Orders (`beforeSwap`)
-The system checks if any **decrypted** market orders are ready:
-- ✅ **Yes** → Those orders are executed
-- ❌ **No** → Nothing happens, move on
+These hooks turn Uniswap into a **programmable liquidity layer**, enabling use cases like:
+- On-chain limit orders
+- Dynamic fees
+- KYC or access control
+- Strategy execution
+- 🕵️ And in our case: **encrypted, privacy-preserving order flow using FHE**
 
-### 5. Check for Decryption Conditions (`afterSwap`)
-After the swap, the system evaluates current market conditions to decide whether any **encrypted** orders should now be decrypted:
-- ✅ **Yes** → Request decryption from the **FHE coprocessor**
-- ❌ **No** → Orders remain encrypted and unchanged
+### v4 Hook Flow Example
 
-### 6. ✅ Swap Completes
-The swap is finalized. If any orders were executed or requested for decryption, it has now been handled.
+<img src="assets/v4Hook.png" alt="Diagram showing Uniswap v4 hook flow with beforeSwap and afterSwap hooks">
 
-### 7. 🔁 Repeat the Process
-The next time a swap occurs, the entire process runs again from step 3.
-
-### 📦 Summary
-
-This flow allows encrypted market orders to remain private while still reacting to live market conditions. These hidden orders:
-- Are only decrypted when the time is right
-- Are executed automatically without user intervention
-- Do not interfere with public swaps
-
-🔐 This creates a **more private, fair, and efficient trading experience** on top of Uniswap.
-
+This diagram illustrates how Uniswap v4 hooks (`beforeSwap`, `afterSwap`) fit into the swap lifecycle.
 
