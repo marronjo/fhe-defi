@@ -1,41 +1,53 @@
-## Encrypted Market Order Hook
+## 📈 Encrypted Market Order Hook
 
-<img src="../assets/FHEMarketOrderHook.png" />
+**A privacy-preserving smart contract extension that enables encrypted market orders on Uniswap v4 using Fully Homomorphic Encryption (FHE).**
 
-### 🔄 Encrypted Market Order Flow
+In traditional DeFi, every action—especially trading—is public. This hook proposes a new model: **users can place market orders without revealing their strategy**, using encrypted logic that executes as soon as the right conditions are met. 
 
-This system enables private (encrypted) market orders to be automatically processed during regular Uniswap activity, using a smart contract hook and an FHE (Fully Homomorphic Encryption) coprocessor.
+By combining Uniswap v4’s new **hook architecture** with an **FHE coprocessor** (e.g. [Fhenix](https://www.fhenix.io/)), this system lets encrypted orders:
+- Stay hidden until market conditions warrant decryption.
+- Be executed automatically during normal Uniswap swaps.
+- Operate without disrupting existing liquidity or user flows.
 
-### 1. 🔐 Users Place Private Orders
-Users send **encrypted** market orders to a special contract called the **hook contract**. These orders are hidden and stored securely until it's the right time to act on them.
+## 🔄 Encrypted Market Order Flow
 
-### 2. 💱 Other Users Make Regular Swaps
-Meanwhile, regular users continue to swap tokens in the **Uniswap pool** just like normal.
+This system enables private (encrypted) market orders to be automatically processed during regular Uniswap activity, using a smart contract hook and an FHE coprocessor.
 
-### 3. ⚙️ Hook Runs on Every Swap
-Every time a swap is initiated, the system automatically calls two special functions in the hook contract:
-- `beforeSwap()` — runs **before** the swap happens
-- `afterSwap()` — runs **after** the swap is done
+### 1. 🔐 Users Place Private Orders  
+Users send **encrypted market orders** to a smart contract known as the **hook contract**. These orders are stored privately and are not visible to the public.
 
-### 4. Check for Executable Orders (`beforeSwap`)
-The system checks if any **decrypted** market orders are ready:
-- ✅ **Yes** → Those orders are executed
-- ❌ **No** → Nothing happens, move on
+### 2. 💱 Regular Swaps Occur  
+While private orders sit encrypted, other users continue to use the Uniswap pool as normal, performing swaps publicly.
 
-### 5. Check for Decryption Conditions (`afterSwap`)
-After the swap, the system evaluates current market conditions to decide whether any **encrypted** orders should now be decrypted:
-- ✅ **Yes** → Request decryption from the **FHE coprocessor**
-- ❌ **No** → Orders remain encrypted and unchanged
+### 3. ⚙️ Hook Triggers on Every Swap  
+Each time a swap occurs, Uniswap v4 calls two functions in the hook:
+- `beforeSwap()` — runs **before** the swap
+- `afterSwap()` — runs **after** the swap
 
-### 6. ✅ Swap Completes
-The swap is finalized. If any orders were executed or requested for decryption, it has now been handled.
+### 4. 🔍 Executable Order Check (`beforeSwap`)  
+The hook checks whether any previously decrypted orders are ready for execution:
+- ✅ **Yes** → Execute them
+- ❌ **No** → Skip
 
-### 7. 🔁 Repeat the Process
-The next time a swap occurs, the entire process runs again from step 3.
+### 5. 🧠 Decryption Condition Check (`afterSwap`)  
+Post-swap, the hook evaluates market data to see if any existing encrypted orders should now be **decrypted**:
+- ✅ **Yes** → Trigger decryption request via the FHE coprocessor
+- ❌ **No** → Orders remain encrypted
 
-### 📦 Summary
+### 6. ✅ Finalize Swap  
+The public swap completes, and any decrypted orders that were executed are now reflected on-chain.
 
-This flow allows encrypted market orders to remain private while still reacting to live market conditions. These hidden orders:
-- Are only decrypted when the time is right
-- Are executed automatically without user intervention
-- Do not interfere with public swaps
+### 7. 🔁 Repeat  
+Each future swap re-triggers the process, keeping the system responsive and privacy-preserving in real time.
+
+<img src="../assets/FHEMarketOrderHook.png" alt="Encrypted Market Order Flow Diagram" />
+
+## 📦 Summary
+
+This hook enables **non-custodial, private market order flow** within public AMMs.  
+
+Encrypted orders:
+- Are invisible until decryption is justified
+- React dynamically to public liquidity changes  
+- Avoid disrupting normal Uniswap functionality  
+- Preserve privacy **without sacrificing composability**
