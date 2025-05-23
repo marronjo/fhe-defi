@@ -40,7 +40,7 @@ The public swap completes, and any decrypted orders that were executed are now r
 ### 7. 🔁 Repeat  
 Each future swap re-triggers the process, keeping the system responsive and privacy-preserving in real time.
 
-<img src="../assets/FHEMarketOrderHook.png" alt="Encrypted Market Order Flow Diagram" />
+<img src="../assets/FHEMarketOrderHook.png" alt="Encrypted Market Order Flow Diagram" width="600"/>
 
 ## 📦 Summary
 
