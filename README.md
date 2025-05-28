@@ -16,6 +16,7 @@
   - [Encrypted Market Orders](https://github.com/marronjo/fhe-defi/tree/main/1.MarketOrder)
   - [Encrypted Limit Orders](https://github.com/marronjo/fhe-defi/tree/main/2.LimitOrder)
   - [Custom Encrypted AMM](https://github.com/marronjo/fhe-defi/tree/main/3.CustomAMM)
+  - [Encrypted Trade Receipts](https://github.com/marronjo/fhe-defi/tree/main/4.TradeReceipts)
 
 ## 🧪 Abstract
 
