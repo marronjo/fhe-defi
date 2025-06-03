@@ -18,6 +18,7 @@
   - [Custom Encrypted AMM](https://github.com/marronjo/fhe-defi/tree/main/3.CustomAMM)
   - [Encrypted Trade Receipts](https://github.com/marronjo/fhe-defi/tree/main/4.TradeReceipts)
   - [TWAMM Orders](https://github.com/marronjo/fhe-defi/tree/main/5.TWAMM)
+  - [Access Control](https://github.com/marronjo/fhe-defi/tree/main/6.AccessControl)
 
 ## 🧪 Abstract
 
