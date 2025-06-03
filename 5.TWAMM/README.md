@@ -14,6 +14,8 @@ However, TWAMMs have two key limitations:
 - **Orders are public** (exposed to MEV bots)
 - **Execution schedule is visible** on-chain
 
+<img src="../assets/TWAMM.png" width="800">
+
 ## 🔐 Why FHE Encrypted TWAMM?
 
 This hook integrates a **Fully Homomorphic Encryption coprocessor** to solve both problems:
@@ -67,6 +69,7 @@ These deltas are returned as encrypted values, without identifying individual us
 ### 4. 🔓 Deferred Settlement
 As TWAMM orders reach completion or withdrawal, decrypted receipts can be optionally generated for audit or settlement.
 
+<img src="../assets/FHETWAMM.png" width="800">
 
 ## 🧩 Key Features
 
