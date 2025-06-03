@@ -45,7 +45,6 @@ This design has major advantages over public ERC-20 or ERC-1155 receipts, which 
 Encrypted ERC-6909 balances can be:
 - **Updated via FHE arithmetic** on deposit/withdraw
 - **Queried privately** by users or permissioned contracts
-- **Used in zero-knowledge workflows** (e.g. "prove I own more than X")
 
 This architecture is highly modular and can serve as a **private accounting layer** for:
 - AMMs  
