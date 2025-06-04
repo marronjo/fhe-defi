@@ -20,7 +20,7 @@ Users send **encrypted market orders** to a smart contract known as the **hook c
 While private orders sit encrypted, other users continue to use the Uniswap pool as normal, performing swaps publicly.
 
 ### 3. ⚙️ Hook Triggers on Every Swap  
-Each time a swap occurs, Uniswap v4 calls two functions in the hook:
+Each time a public swap occurs, Uniswap v4 calls two functions in the hook:
 - `beforeSwap()` — runs **before** the swap
 - `afterSwap()` — runs **after** the swap
 
@@ -29,10 +29,14 @@ The hook checks whether any previously decrypted orders are ready for execution:
 - ✅ **Yes** → Execute them
 - ❌ **No** → Skip
 
+Note: the reason this check is done in the beforeSwap hook is to give users the best price. A decrypted order will be swapped first before the public swapthat triggered this hook.
+
 ### 5. 🧠 Decryption Condition Check (`afterSwap`)  
 Post-swap, the hook evaluates market data to see if any existing encrypted orders should now be **decrypted**:
 - ✅ **Yes** → Trigger decryption request via the FHE coprocessor
 - ❌ **No** → Orders remain encrypted
+
+Note: this check is done in the afterSwap hook because this is when the price changes.
 
 ### 6. ✅ Finalize Swap  
 The public swap completes, and any decrypted orders that were executed are now reflected on-chain.
