@@ -49,6 +49,8 @@ Each future swap re-triggers the process, keeping the system responsive and priv
 - Prevents **front-running**, **sandwich attacks**, and **strategy leakage**.
 - Traders can submit large or sensitive orders without broadcasting intent.
 
+Note : this market order hook allows for backrunning of decrypted market orders. This is not seen as a negative outcome since it does not affect the users execution price. It simply re-aligns prices after the users swap by trading in the opposite direction to bring price back to equilibrium. This is only worthwhile on large orders that change the price in a meaningful way.
+
 ### 🧠 Encrypted Conditional Logic
 - Execution conditions (e.g., price thresholds) are evaluated inside an **FHE coprocessor**.
 - Orders are **only decrypted and executed** when the condition is met — in private.
