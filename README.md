@@ -20,6 +20,10 @@
   - [TWAMM Orders](https://github.com/marronjo/fhe-defi/tree/main/5.TWAMM)
   - [Access Control](https://github.com/marronjo/fhe-defi/tree/main/6.AccessControl)
 
+- [Summary](#-summary-of-fhe-hooks)
+- [Key Learnings / Takeaways](#-learnings--takeaways)
+- [Hooks vs Off-Chain Alternatives](#️-hook-based-designs-vs-off-chain-alternatives)
+
 ## 🧪 Abstract
 
 This project explores how **Fully Homomorphic Encryption (FHE)** can be applied to 
@@ -120,13 +124,42 @@ However, key trade-offs emerge:
 
 - While **on-chain privacy** is improved, **metadata leakage** (e.g. timestamps) remains a challenge.
 
-Hook-based designs offer:
-- Tight **integration** with Uniswap pools
-- **Reactive, composable** behavior that integrates with the existing swap lifecycle
-- But come with higher gas costs and architectural complexity
+### ⚖️ Hook-Based Designs vs Off-Chain Alternatives
 
-Off-chain alternatives are:
-- **Cheaper and more flexible**
-- But sacrifice reactivity, composability and decentralisation
+#### 🔗 Hook-Based Designs
 
-In short, **FHE hooks enable a powerful privacy layer**, but must be applied **carefully** with attention to UX, cost, latency, and trust boundaries.
+Hook-based systems are implemented directly within the Uniswap v4 protocol using its native hook architecture.
+
+**Benefits:**
+- Tight **integration** with Uniswap pools, enabling privacy logic to be executed **in-line with swaps**.
+- **Reactive and composable**: Hooks respond immediately to swap events (`beforeSwap`, `afterSwap`), making them ideal for fully on-chain strategies like encrypted AMMs, TWAMM, or access control.
+- Preserve decentralization by keeping execution within Ethereum’s security boundary.
+
+**Drawbacks:**
+- Come with **higher gas costs** due to extra logic, state handling, and computational overhead.
+- Increased **architectural complexity**—developers must reason about async decryptions, gas limits, and state syncing within Uniswap’s execution model.
+- Deployment is more constrained: contracts must conform to hook interface standards and interact safely with the PoolManager.
+
+---
+
+#### 🌐 Off-Chain Alternatives
+
+Off-chain models shift order handling and encryption/decryption logic to external services or relayers.
+
+**Benefits:**
+- **Cheaper execution**: Most of the computation (especially FHE operations) happens off-chain, reducing on-chain gas consumption.
+- Greater **flexibility** in system design — easier to iterate, upgrade, and experiment without redeploying smart contracts.
+- Can support complex logic, batching, or fallback mechanisms not easily implemented in Solidity.
+
+**Drawbacks:**
+- Sacrifice **reactivity** — orders can't respond instantly to swap events without trusted intermediaries.
+- Lose **composability** with Uniswap and other DeFi protocols, as order flow becomes isolated from on-chain logic.
+- Introduce **trust assumptions** and reduce decentralization — unless mitigated through  
+  **cryptoeconomic incentives**, **multi-party computation (MPC)**, or **zero-knowledge proofs (ZKPs)** to enforce correctness and fairness in off-chain execution.
+
+---
+
+Choosing between these models depends on your design goals:
+
+- Use **hooks** when composability, reactivity, and decentralization are priorities.
+- Use **off-chain models** for experimental features, reduced costs, or where trust assumptions are acceptable and manageable.
