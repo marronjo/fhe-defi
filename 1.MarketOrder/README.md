@@ -42,6 +42,44 @@ Each future swap re-triggers the process, keeping the system responsive and priv
 
 <img src="../assets/FHEMarketOrderHook.png" alt="Encrypted Market Order Flow Diagram" width="800"/>
 
+## ✅ Benefits of FHE Market Order Hooks
+
+### 🔒 Trade Privacy
+- Orders remain encrypted until execution.
+- Prevents **front-running**, **sandwich attacks**, and **strategy leakage**.
+- Traders can submit large or sensitive orders without broadcasting intent.
+
+### 🧠 Encrypted Conditional Logic
+- Execution conditions (e.g., price thresholds) are evaluated inside an **FHE coprocessor**.
+- Orders are **only decrypted and executed** when the condition is met — in private.
+
+### 🔁 Automated Reactivity
+- Each swap triggers `beforeSwap()` and `afterSwap()` checks.
+- Decrypted orders are auto-executed.
+- Hook re-evaluates encrypted orders dynamically as swaps occur.
+
+### 📦 Composable Privacy Layer
+- Adds a **modular, privacy-preserving order flow** to any AMM.
+- Can be combined with other Uniswap v4 hooks (e.g., fees, access control) without conflict.
+
+## ⚠️ Pitfalls & Limitations
+
+### ⏱️ Latency in Decryption
+- FHE decryption introduces an **asynchronous delay** between decryption request and the decrrypted value being available on-chain.
+- Depends on the **availability and liveness** of the coprocessor.
+
+### ⛽ Increased Gas Usage
+- FHE computations add overhead to each swap.
+- Gas cost increases with:
+    - Number of encrypted orders to evaluate.
+    - Complexity of conditional checks.
+
+### 🕵️‍♂️ Metadata Leakage
+- Some metadata is still public:
+  - When orders are submitted.
+  - When orders are decrypted and executed.
+- Privacy can be improved with **order batching** and **delta bundling**.
+
 ## 📦 Summary
 
 This hook enables **non-custodial, private market order flow** within public AMMs.  
