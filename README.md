@@ -66,3 +66,67 @@ These hooks turn Uniswap into a **programmable liquidity layer**, enabling use c
 
 This diagram illustrates how Uniswap v4 hooks (`beforeSwap`, `afterSwap`) fit into the swap lifecycle.
 
+Please see [Table of Contents](#table-of-contents) for in-depth research.
+
+### 🧩 Summary of FHE Hooks
+
+| Hook Type         | Description                                                                                   | Key Features                                                                 |
+|-------------------|-----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| 📈 **Market Order Hook** | Enables private, encrypted market orders that execute as conditions are met                 | - Encrypted order logic<br>- Auto-triggered by `beforeSwap()`<br>- FHE coprocessor integration |
+| ⏳ **Limit Order Hook**  | Allows encrypted price-triggered execution of trades                                       | - Encrypted price conditions<br>- Conditional decryption via `afterSwap()`  |
+| 🌊 **Custom AMM Hook**   | Overrides default swap logic to perform encrypted matching in a private AMM                | - No-op swap in pool manager<br>- Encrypted swaps executed within hook      |
+| 🧾 **Trade Receipt Hook**| Issues encrypted ERC-6909 receipts (e.g. LP tokens, trade claims)                          | - FHE-wrapped receipts<br>- Token anonymity and privacy-preserving balances |
+| ⌛ **TWAMM Hook**         | Enables encrypted time-weighted average market making with private execution scheduling    | - Private scheduling<br>- Delta bundling<br>- Execution triggers via coprocessor |
+| 🔐 **Access Control Hook** | Enforces FHE-based rules for who can interact with a pool                                 | - Time-gated access<br>- Secret attribute filters<br> |
+| 📤 **Post-Settlement Hook** | Handles encrypted actions after a swap (e.g. rewards, off-chain reporting)               | - Post-trade FHE actions<br>- Decouples logic from core execution path      |
+
+## 📚 Learnings & Takeaways
+
+This research demonstrates that **Fully Homomorphic Encryption (FHE)** can meaningfully expand the design space of decentralized finance by enabling **privacy-preserving logic** directly within **Uniswap v4 hooks**.
+
+With a myriad of use cases — from market and limit orders to TWAMM, custom AMMs, and encrypted receipts —  
+FHE allows for **encrypted intent**, **conditional execution**, and **selective disclosure**,  
+all without sacrificing composability.
+
+However, key trade-offs emerge:
+
+- FHE systems rely on **off-chain coprocessors**, introducing:
+  - Latency
+    - trade timing is affected
+    - slower UX compared to regular swaps
+    - price swings can cause worse execution price for users
+  - Liveness requirements
+    - coprocessor uptime
+    - operation is skipped / lost (never executed)
+    - recover previous state after outages
+  - Processing Capacity
+    - can off-chain services keep up with real-time trading demand
+    - FHE operations are **intensive** and performance remains a limiting factor for high-frequency or large-scale order flows.
+
+- User Expsense 💸
+  - **On-chain interactions involving FHE hooks** typically incur higher gas costs due to:
+    - Additional logic for encrypted order evaluation
+    - Interaction with external coprocessors or encrypted state
+    - Complexity of maintaining privacy-preserving conditions inside smart contracts
+    - All FHE encrypted numbers are 256 bits, so no storage slot optimization / packing is possible within smart contracts
+
+  - Users may also bear **indirect costs** such as:
+    - Fees paid to off-chain relayers or coprocessor operators
+    - Delays in order execution due to FHE decryption latency
+
+  - Depending on the chain, these costs may be **significantly amplified on Ethereum mainnet**, but more manageable on **L2s or high-throughput chains**.
+
+  - Designing efficient UX flows (e.g., batching, permits, meta-transactions) will be critical to minimizing user burden and making FHE-enabled DeFi approachable.
+
+- While **on-chain privacy** is improved, **metadata leakage** (e.g. timestamps) remains a challenge.
+
+Hook-based designs offer:
+- Tight **integration** with Uniswap pools
+- **Reactive, composable** behavior that integrates with the existing swap lifecycle
+- But come with higher gas costs and architectural complexity
+
+Off-chain alternatives are:
+- **Cheaper and more flexible**
+- But sacrifice reactivity, composability and decentralisation
+
+In short, **FHE hooks enable a powerful privacy layer**, but must be applied **carefully** with attention to UX, cost, latency, and trust boundaries.
