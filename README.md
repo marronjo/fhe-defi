@@ -19,6 +19,7 @@
   - [Encrypted Trade Receipts](https://github.com/marronjo/fhe-defi/tree/main/4.TradeReceipts)
   - [TWAMM Orders](https://github.com/marronjo/fhe-defi/tree/main/5.TWAMM)
   - [Access Control](https://github.com/marronjo/fhe-defi/tree/main/6.AccessControl)
+  - [Post Settle Reveal](https://github.com/marronjo/fhe-defi/tree/main/7.PostSettle)
 
 - [Summary](#-summary-of-fhe-hooks)
 - [Key Learnings / Takeaways](#-learnings--takeaways)
