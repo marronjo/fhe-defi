@@ -85,6 +85,36 @@ Please see [Table of Contents](#table-of-contents) for in-depth research.
 | 🔐 **Access Control Hook** | Enforces FHE-based rules for who can interact with a pool                                 | - Time-gated access<br>- Secret attribute filters<br> |
 | 📤 **Post-Settlement Hook** | Handles encrypted actions after a swap (e.g. rewards, off-chain reporting)               | - Post-trade FHE actions<br>- Decouples logic from core execution path      |
 
+### 🧑‍💻 User Experience
+
+While FHE-powered privacy introduces important protections, it also presents new UX challenges:
+
+#### ⏱ Latency from Decryption (async tax)
+- Encrypted data must be processed by an off-chain FHE coprocessor.
+- This adds **noticeable delay** between user intent and trade execution.
+- Users may experience a **slower feedback loop**, especially compared to typical instant DeFi swaps.
+- FHE operations are computationally intensive and cause delays in otherwise synchronous workflows.
+
+#### 🧩 Delayed Execution from Bundling
+- To preserve privacy and obfuscate order flow, swaps may be **batched or bundled** together.
+- This can delay trade execution, particularly in low-volume pools or quiet market conditions.
+- **Users may wait longer** for their order to be processed or revealed.
+
+#### ⚠️ Uncertainty at Execution Time
+- Since swap metadata remains encrypted until after settlement (or not revealed at all),  
+  users may feel **less clarity** about what is happening during a transaction.
+- **UI design must compensate** by surfacing trusted indicators (e.g. "pending decryption", timers, etc.).
+
+#### 🔁 Trade Reversibility and Cancel UX
+- Encrypted logic may make it harder to **cancel** or modify an in-flight order.
+- Additional design may be needed to allow users to reclaim tokens or cancel swaps before execution triggers.
+
+#### 🧠 Cognitive Load
+- Concepts like delayed reveals, audit-controlled access, and bundled execution may introduce **new mental models** unfamiliar to most DeFi users.
+- Intuitive frontends and clear messaging are essential to avoid confusion and build trust.  
+
+**Overall**, while FHE hooks offer groundbreaking privacy, they require **careful UX design** to ensure smooth interaction, responsiveness, clear user feedback, and robust expectations around performance.
+
 ## 📚 Learnings & Takeaways
 
 This research demonstrates that **Fully Homomorphic Encryption (FHE)** can meaningfully expand the design space of decentralized finance by enabling **privacy-preserving logic** directly within **Uniswap v4 hooks**.
