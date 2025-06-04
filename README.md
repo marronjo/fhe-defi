@@ -22,6 +22,7 @@
   - [Post Settle Reveal](https://github.com/marronjo/fhe-defi/tree/main/7.PostSettle)
 
 - [Summary](#-summary-of-fhe-hooks)
+- [User Experience](#-user-experience)
 - [Key Learnings / Takeaways](#-learnings--takeaways)
 - [Hooks vs Off-Chain Alternatives](#️-hook-based-designs-vs-off-chain-alternatives)
 
